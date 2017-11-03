@@ -1,0 +1,13 @@
+{
+  "name": "snbc",
+  "version": "0.0.1",
+  "cordova": {
+    "id": "cordova-plugin-snbc",
+    "platforms": [
+      "android"
+    ]
+  },
+  "dependencies": {
+
+  }
+}

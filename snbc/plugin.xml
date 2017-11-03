@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-snbc" version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>snbc</name>
+    <js-module name="snbc" src="www/snbc.js">
+        <clobbers target="cordova.plugins.snbc" />
+    </js-module>
+
+    <platform name="android">
+        <config-file target="config.xml" parent="/*">
+            <feature name="SNBC">
+                <param name="android-package"
+                       value="com.snbc.plugin.SNBC"/>
+            </feature>
+        </config-file>
+        <source-file src="src/android/com/snbc/plugin/SNBC.java"
+                     target-dir="src/android/com/snbc/plugin" />
+        <source-file src="src/android/libs/SnbcHAL.jar" target-dir="src/android/libs" />
+        <source-file src="src/android/libs/DeviceHAL.jar" target-dir="src/android/libs" />
+        <resource-file src="src/android/libs" target="libs" />
+    </platform>
+</plugin>
