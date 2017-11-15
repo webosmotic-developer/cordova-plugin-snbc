@@ -12,6 +12,10 @@
                        value="com.snbc.plugin.SNBC"/>
             </feature>
         </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+        </config-file>
         <source-file src="src/android/com/snbc/plugin/SNBC.java"
                      target-dir="src/android/com/snbc/plugin" />
         <source-file src="src/android/libs/SnbcHAL.jar" target-dir="src/android/libs" />
