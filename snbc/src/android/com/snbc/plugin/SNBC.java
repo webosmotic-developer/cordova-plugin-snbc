@@ -1,5 +1,6 @@
 package com.snbc.plugin;
 
+import com.snbc.device.config.MyLogFile;
 import com.snbc.device.hal.ILocker;
 import com.snbc.device.impl.HostLockerImpl;
 import com.snbc.device.impl.LockerBankImpl;
@@ -8,8 +9,13 @@ import com.snbc.device.impl.BarCodeReaderImpl;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.LOG;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.util.Log;
 
 public class SNBC extends CordovaPlugin {
 
@@ -17,6 +23,7 @@ public class SNBC extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args,  CallbackContext callbackContext) throws JSONException {
+        MyLogFile.SetWriteFlag(true);
         if ("OPEN_SLOT".equals(action)) {
             openSlot(args.getString(0), args.getString(1), callbackContext);
             return true;
@@ -85,13 +92,20 @@ public class SNBC extends CordovaPlugin {
         }
     }
 
-    private void startReadCode(CallbackContext callbackContext) {
+    private void startReadCode(final CallbackContext callbackContext) {
         mBarCodeReader.addListener(new IBarCodeReader.IBarCodeReaderListener() {
             @Override
             public void OnCodeReadCallBack(int iErrorId, String strBarCode) {
-            	String[] readerCallBack = {String.valueOf(iErrorId), strBarCode};
-                callbackContext.success(readerCallBack);
+                Log.i("startReadCode ===== ", "iErrorId: " + iErrorId);
                 mBarCodeReader.removeListener(this);
+                try {
+                    JSONObject obj = new JSONObject();
+                    obj.put("errorCode", iErrorId);
+                    obj.put("strBarCode", strBarCode);
+                    callbackContext.success(obj);
+                } catch (Exception e) {
+                    callbackContext.error(e.getMessage());
+                }
             }
         });
         mBarCodeReader.startReadCode(120);
